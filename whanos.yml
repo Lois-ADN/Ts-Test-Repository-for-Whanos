@@ -1,9 +1,26 @@
-deployment:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whanos-deployment
+  labels:
+    app: whanos
+spec:
   replicas: 3
-  resources:
-    limits:
-      memory: "128M"
-    requests:
-      memory: "64M"
-  ports:
-    - 3000
+  selector:
+    matchLabels:
+      app: whanos
+  template:
+    metadata:
+      labels:
+        app: whanos
+    spec:
+      containers:
+      - name: whanos-container
+        image: whanos-javascript-standalone:latest
+        resources:
+          limits:
+            memory: "128Mi"
+          requests:
+            memory: "64Mi"
+        ports:
+        - containerPort: 3000
